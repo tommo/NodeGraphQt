@@ -3,7 +3,7 @@
 import math
 from distutils.version import LooseVersion
 
-from Qt import QtGui, QtCore, QtWidgets
+from qtpy import QtGui, QtCore, QtWidgets
 
 from NodeGraphQt.base.menu import BaseMenu
 from NodeGraphQt.constants import (
@@ -51,7 +51,7 @@ class NodeViewer(QtWidgets.QGraphicsView):
         """
         Args:
             parent:
-            undo_stack (QtWidgets.QUndoStack): undo stack from the parent
+            undo_stack (QtGui.QUndoStack): undo stack from the parent
                                                graph controller.
         """
         super(NodeViewer, self).__init__(parent)
@@ -522,7 +522,7 @@ class NodeViewer(QtWidgets.QGraphicsView):
                 path.addRect(map_rect)
                 self._rubber_band.setGeometry(rect)
                 self.scene().setSelectionArea(
-                    path, QtCore.Qt.IntersectsItemShape
+                    path, mode = QtCore.Qt.IntersectsItemShape
                 )
                 self.scene().update(map_rect)
 
@@ -573,7 +573,7 @@ class NodeViewer(QtWidgets.QGraphicsView):
             delta = event.angleDelta().y()
             if delta == 0:
                 delta = event.angleDelta().x()
-        self._set_viewer_zoom(delta, pos=event.pos())
+        self._set_viewer_zoom(delta, pos=event.position().toPoint())
 
     def dropEvent(self, event):
         pos = self.mapToScene(event.pos())
